@@ -110,6 +110,7 @@ theme.bytes_out_icon =  config_dir .. "/themes/default/widgets/bytes_out.png"
 theme.cpu_temp_icon =  config_dir .. "/themes/default/widgets/cpu_temp.png"
 theme.check_icon =  config_dir .. "/themes/default/widgets/check.png"
 theme.cross_icon =  config_dir .. "/themes/default/widgets/cross.png"
+theme.net_icon =  config_dir .. "/themes/default/widgets/net_icon.png"
 
 return theme
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

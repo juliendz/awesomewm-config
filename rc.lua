@@ -111,7 +111,10 @@ myawesomemenu = {
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "Applications", xdgmenu },
-                                    { "Konsole", terminal }
+                                    { "Konsole", terminal },
+                                    { "Firefox", "firefox" },
+                                    { "Dolphin", "dolphin" },
+                                    { "KSysGuard", "ksysguard" }
                                   }
                         })
 
@@ -264,6 +267,8 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%", 5)
  cpu_temp_info_timer:start()
  
 --Internet check bashet
+net_check_icon = wibox.widget.imagebox()
+net_check_icon:set_image(beautiful.net_icon)
 net_icon = wibox.widget.imagebox()
 net_icon:set_image(beautiful.check_icon)
 
@@ -276,8 +281,6 @@ function net_bashets_callback(retval)
     end                                                   
 end
  
-net_check_widget = wibox.widget.textbox()
-net_check_widget:set_text("NET: ")
 --bashets.register("net-check.sh", {widget = net_check_widget, callback = net_bashets_callback, format = "$1", update_time = "20", async = true, file_update_time = "20"}) 
 bashets.register("net-check.sh", {callback = net_bashets_callback, update_time = "21", async = true, file_update_time = "20"}) 
  
@@ -338,7 +341,7 @@ for s = 1, screen.count() do
     bot_left_layout:add(wifi_signal_icon)
     bot_left_layout:add(wifi_signal_widget)
     bot_left_layout:add(separator_icon)
-    bot_left_layout:add(net_check_widget)
+    bot_left_layout:add(net_check_icon)
     bot_left_layout:add(net_icon)
     bot_left_layout:add(separator_icon)
     bot_left_layout:add(bytes_in_icon)
@@ -549,9 +552,12 @@ awful.rules.rules = {
       properties = { tag = tags[1][6] } },
     { rule = { class = "Dolphin" },
       properties = { tag = tags[1][4] } },
+    { rule = { class = "Eclipse" },
+      properties = { tag = tags[1][2] } },
+    { rule = { class = "Kget" },
+      properties = { tag = tags[1][6] } },
     { rule = { instance = "plugin-container" },
-      properties = { floating = true, fullscreen = true },
-      callback = awful.titlebar.toggle }, 
+      properties = { floating = true, fullscreen = true } }, 
 }
 -- }}}
 
@@ -636,5 +642,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 --Auto start apps
-awful.util.spawn_with_shell(firefox)
+awful.util.spawn_with_shell("firefox")
+awful.util.spawn_with_shell("orage")
 awful.util.spawn_with_shell(terminal)

@@ -4,6 +4,7 @@
      {"Archive Manager", "file-roller ", "/usr/share/icons/hicolor/16x16/apps/file-roller.png" },
      {"Disks", "gnome-disks", "/usr/share/icons/hicolor/16x16/apps/gnome-disks.png" },
      {"Kate", "kate -b ", "/usr/share/icons/hicolor/16x16/apps/kate.png" },
+     {"Orage Globaltime", "globaltime", "/usr/share/icons/hicolor/48x48/apps/orage_globaltime.png" },
  }
 
  local menud334dfcea59127bedfcdbe0a3ee7f494 = {
@@ -19,13 +20,18 @@
      {"Firefox", "/usr/lib/firefox/firefox ", "/usr/share/icons/hicolor/16x16/apps/firefox.png" },
      {"KGet", "kget -caption KGet  ", "/usr/share/icons/hicolor/16x16/apps/kget.png" },
      {"qBittorrent", "qbittorrent ", "/usr/share/icons/hicolor/16x16/apps/qbittorrent.png" },
+     {"uGet", "uget-gtk ", "/usr/share/icons/hicolor/16x16/apps/uget-icon.png" },
  }
 
  local menudf814135652a5a308fea15bff37ea284 = {
      {"Document Viewer", "evince ", "/usr/share/icons/hicolor/16x16/apps/evince.png" },
+     {"Orage Calendar", "orage", "/usr/share/icons/hicolor/48x48/apps/xfcalendar.png" },
+     {"Orage Globaltime", "globaltime", "/usr/share/icons/hicolor/48x48/apps/orage_globaltime.png" },
  }
 
  local menue6f43c40ab1c07cd29e4e83e4ef6bf85 = {
+     {"Elcipse", "/opt/eclipse/eclipse", "///opt/eclipse/icon.xpm" },
+     {"Giggle", "giggle ", "/usr/share/icons/hicolor/16x16/apps/giggle.png" },
      {"OpenJDK Policy Tool", "/usr/bin/policytool", "/usr/share/icons/hicolor/16x16/apps/java.png" },
      {"Qt4 Assistant ", "assistant-qt4", "/usr/share/icons/hicolor/32x32/apps/assistant-qt4.png" },
      {"Qt4 Designer", "designer-qt4", "/usr/share/icons/hicolor/128x128/apps/designer-qt4.png" },
