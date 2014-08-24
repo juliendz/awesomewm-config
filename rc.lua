@@ -305,7 +305,7 @@ for s = 1, screen.count() do
     -- Create the wibox
     topwibox[s] = awful.wibox({ position = "top", screen = s, height = 25 })
     -- botwibox[s] = awful.wibox({ position = "bottom", screen = s, ontop = true })
-    botwibox[s] = awful.wibox({ position = "bottom", screen = s })
+    botwibox[s] = awful.wibox({ position = "bottom", screen = s, height = 20 })
     botwibox[s]:set_bg(beautiful.infowibox_bg_normal)
 
     -- Widgets that are aligned to the left
