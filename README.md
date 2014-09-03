@@ -8,6 +8,7 @@ sudo pacman -S vicious
 
 #Install latest version of bashets.lua
 https://gitorious.org/bashets/bashets
+cp bashets.lua to /usr/share/awesome/lib
 
 #Install xdg_menu
 sudo pacman -S archlinux-xdg-menu

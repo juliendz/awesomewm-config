@@ -12,11 +12,11 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 --Vicious library
 local vicious = require("vicious")
---Bashets library
-local bashets = require("bashets") 
---bashets.set_script_path("/dev/shm/bashets/")
-bashets.set_script_path("/home/julien/.config/awesome/bashets/")
-bashets.set_temporary_path("/dev/shm/tmp/")
+-- Bashets library
+-- local bashets = require("bashets") 
+-- bashets.set_script_path("/dev/shm/bashets/")
+-- bashets.set_script_path("/home/julien/.config/awesome/bashets/")
+-- bashets.set_temporary_path("/dev/shm/tmp/")
 -- Xdb menu
 xdg_menu = require("archmenu")
 
@@ -54,8 +54,8 @@ end
 beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "konsole"
-editor = "kate"
+terminal = "terminator"
+editor = "gvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -79,7 +79,7 @@ local layouts =
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
-    awful.layout.suit.floating
+    awful.layout.suit.floating,
 }
 -- }}}
 
@@ -111,9 +111,10 @@ myawesomemenu = {
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "Applications", xdgmenu },
-                                    { "Konsole", terminal },
                                     { "Firefox", "firefox" },
-                                    { "Dolphin", "dolphin" },
+                                    { "Eclipse", "eclipse" },
+                                    { "Terminator", terminal },
+                                    { "Nemo", "nemo" },
                                     { "KSysGuard", "ksysguard" }
                                   }
                         })
@@ -194,11 +195,12 @@ separator_icon = wibox.widget.imagebox()
 separator_icon:set_image(beautiful.separator_icon)
                                           
 --wifi signal widget
+--[==[
  wifi_signal_widget = wibox.widget.textbox("?%")
  wifi_signal_icon = wibox.widget.imagebox()
  wifi_signal_icon:set_image(beautiful.wireless_signal)
  function wifiInfo()
-     local spacer = " "
+     local spacer = ""
      local wifiStrength = awful.util.pread("awk 'NR==3 {printf \"%.1f%%\\n\",($3/70)*100}' /proc/net/wireless")
      if wifiStrength == "" then
          wifi_signal_widget:set_text("n/a")
@@ -210,13 +212,14 @@ separator_icon:set_image(beautiful.separator_icon)
  wifi_timer = timer({timeout=20})
  wifi_timer:connect_signal("timeout",wifiInfo)
  wifi_timer:start()
+--]==]
  
  -- Memory widget
 memory_icon = wibox.widget.imagebox()
 memory_icon:set_image(beautiful.memory_icon)
 memwidget = wibox.widget.textbox()
 -- Register widget
-vicious.register(memwidget, vicious.widgets.mem, " $1% ($2 MB)", 15)
+vicious.register(memwidget, vicious.widgets.mem, "$2MB", 15)
 
 -- CPU widget
 cpuwidget = wibox.widget.textbox()
@@ -237,8 +240,8 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%", 5)
  
  function bytes_info()
      local spacer = " "
-     local bytes_in = awful.util.pread("awk 'NR==5 {printf \"%.1f MB\\n\", ($2/1024)/1024}' /proc/net/dev")
-     local bytes_out = awful.util.pread("awk 'NR==5 {printf \"%.1f MB\\n\", ($10/1024)/1024}' /proc/net/dev")
+     local bytes_in = awful.util.pread("awk 'NR==5 {printf \"%.1f\\n\", ($2/1024)/1024}' /proc/net/dev")
+     local bytes_out = awful.util.pread("awk 'NR==5 {printf \"%.1f\\n\", ($10/1024)/1024}' /proc/net/dev")
      bytes_in_widget:set_text(spacer .. bytes_in)
      bytes_out_widget:set_text(spacer .. bytes_out)
  end
@@ -255,10 +258,9 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%", 5)
  cpu_2_widget = wibox.widget.textbox()
  
  function cpu_temp_info()
-     --local cpu1 = awful.util.pread("sensors | awk 'NR==4 {printf \"%.1f \\xe2\\x84\\x83 \n\",  $3}'")
-     local cpu1 = awful.util.pread("sensors | grep 'Core 0' | awk 'NR==1 {printf $3}'")
-     local cpu2 = awful.util.pread("sensors | grep 'Core 1' | awk 'NR==1 {printf $3}'")
-     cpu_1_widget:set_text(cpu1 .. " / ")
+     local cpu1 = awful.util.pread("sensors | grep 'Core 0' | awk 'NR==1 {printf \"%.f\", $3}'")
+     local cpu2 = awful.util.pread("sensors | grep 'Core 1' | awk 'NR==1 {printf \"%.f\", $3}'")
+     cpu_1_widget:set_text(cpu1 .. "/")
      cpu_2_widget:set_text(cpu2)
  end
  cpu_temp_info()
@@ -267,6 +269,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%", 5)
  cpu_temp_info_timer:start()
  
 --Internet check bashet
+--[==[
 net_check_icon = wibox.widget.imagebox()
 net_check_icon:set_image(beautiful.net_icon)
 net_icon = wibox.widget.imagebox()
@@ -280,12 +283,13 @@ function net_bashets_callback(retval)
         net_icon:set_image(beautiful.cross_icon)
     end                                                   
 end
+--]==]
  
 --bashets.register("net-check.sh", {widget = net_check_widget, callback = net_bashets_callback, format = "$1", update_time = "20", async = true, file_update_time = "20"}) 
-bashets.register("net-check.sh", {callback = net_bashets_callback, update_time = "21", async = true, file_update_time = "20"}) 
+--bashets.register("net-check.sh", {callback = net_bashets_callback, update_time = "21", async = true, file_update_time = "20"}) 
  
 --Start all bashets
-bashets.start()
+--bashets.start()
  
 
 for s = 1, screen.count() do
@@ -307,9 +311,6 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     topwibox[s] = awful.wibox({ position = "top", screen = s, height = 25 })
-    -- botwibox[s] = awful.wibox({ position = "bottom", screen = s, ontop = true })
-    botwibox[s] = awful.wibox({ position = "bottom", screen = s, height = 20 })
-    botwibox[s]:set_bg(beautiful.infowibox_bg_normal)
 
     -- Widgets that are aligned to the left
     local top_left_layout = wibox.layout.fixed.horizontal()
@@ -325,7 +326,27 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local top_right_layout = wibox.layout.fixed.horizontal()
     top_right_layout:add(spacer)
+    top_right_layout:add(cpu_icon)
+    top_right_layout:add(cpuwidget)
+    top_right_layout:add(separator_icon)
+    top_right_layout:add(memory_icon)
+    top_right_layout:add(memwidget)
+    top_right_layout:add(separator_icon)
+    top_right_layout:add(cpu_temp_icon)
+    top_right_layout:add(cpu_1_widget)
+    top_right_layout:add(cpu_2_widget)
+    top_right_layout:add(separator_icon)
+    top_right_layout:add(bytes_in_icon)
+    top_right_layout:add(bytes_in_widget)
+    top_right_layout:add(bytes_out_icon)
+    top_right_layout:add(bytes_out_widget)
+    top_right_layout:add(separator_icon)
+
+    -- Systray
     if s == 1 then top_right_layout:add(wibox.widget.systray()) end
+    -- Clock widget
+    top_right_layout:add(mytextclock)
+    -- Layout indicator box
     top_right_layout:add(mylayoutbox[s])
     
     -- Now bring it all together (with the tasklist in the middle)
@@ -336,47 +357,6 @@ for s = 1, screen.count() do
 
     topwibox[s]:set_widget(top_layout)
 
-    -- Bottom wibox
-    local bot_left_layout = wibox.layout.fixed.horizontal()
-    bot_left_layout:add(wifi_signal_icon)
-    bot_left_layout:add(wifi_signal_widget)
-    bot_left_layout:add(separator_icon)
-    bot_left_layout:add(net_check_icon)
-    bot_left_layout:add(net_icon)
-    bot_left_layout:add(separator_icon)
-    bot_left_layout:add(bytes_in_icon)
-    bot_left_layout:add(bytes_in_widget)
-    bot_left_layout:add(spacer)
-    bot_left_layout:add(bytes_out_icon)
-    bot_left_layout:add(bytes_out_widget)
-    bot_left_layout:add(separator_icon)
-    
-    
-    local bot_mid_layout = wibox.layout.fixed.horizontal()
-    bot_mid_layout:add(mytextclock)
-    
-    
-    
-    local bot_right_layout = wibox.layout.fixed.horizontal()
-    bot_right_layout:add(cpu_icon)
-    bot_right_layout:add(cpuwidget)
-    bot_right_layout:add(separator_icon)
-    bot_right_layout:add(memory_icon)
-    bot_right_layout:add(memwidget)
-    bot_right_layout:add(separator_icon)
-    bot_right_layout:add(cpu_temp_icon)
-    --bot_right_layout:add(cpu_num_widget)
-    bot_right_layout:add(cpu_1_widget)
-    bot_right_layout:add(cpu_2_widget)
-    
-    local bot_layout = wibox.layout.align.horizontal()
-    bot_layout:set_left(bot_left_layout)
-    bot_layout:set_middle(bot_mid_layout)
-    bot_layout:set_right(bot_right_layout)
-    
-    botwibox[s]:set_widget(bot_layout)
-
-    
 end
 -- }}}
 
@@ -547,7 +527,7 @@ awful.rules.rules = {
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 1 of screen 1.
     { rule = { class = "Firefox" },
-      properties = { tag = tags[1][1] } },
+      properties = { tag = tags[1][1], maximized_vertical = true } },
     { rule = { class = "Qbittorrent" },
       properties = { tag = tags[1][6] } },
     { rule = { class = "Dolphin" },
@@ -589,7 +569,7 @@ client.connect_signal("manage", function (c, startup)
         end
     end
 
-    local titlebars_enabled = false
+    local titlebars_enabled = true
     if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
         -- buttons for the titlebar
         local buttons = awful.util.table.join(
@@ -641,7 +621,16 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+--set different layout for different tags
+local screen = mouse.screen
+local floating_layout_tags = {1, 4, 5, 6}
+for flt=1, 4 do
+    local tag = awful.tag.gettags(screen)[floating_layout_tags[flt]]
+    awful.layout.set(layouts[12], tag)
+end
+
 --Auto start apps
-awful.util.spawn_with_shell("firefox")
-awful.util.spawn_with_shell("orage")
-awful.util.spawn_with_shell(terminal)
+-- awful.util.spawn_with_shell("firefox")
+-- awful.util.spawn_with_shell("orage")
+-- awful.util.spawn_with_shell(terminal)
+-- awful.util.spawn_with_shell("nm-applet")
