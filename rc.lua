@@ -109,14 +109,21 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
+shutdownmenu = {
+    { "Suspend", "systemctl suspend" },
+    { "Reboot", "reboot" },
+    { "Poweroff", "poweroff" },
+}
+
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "Applications", xdgmenu },
                                     { "Firefox", "firefox" },
                                     { "Eclipse", "eclipse" },
                                     { "Terminator", terminal },
                                     { "Nemo", "nemo" },
-                                    { "KSysGuard", "ksysguard" }
-                                  }
+                                    { "Rhythmbox", "rhythmbox" },
+				    { "Turn Off", shutdownmenu, beautiful.awesome_icon },
+                                   }
                         })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
@@ -528,14 +535,18 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 1 of screen 1.
     { rule = { class = "Firefox" },
       properties = { tag = tags[1][1], maximized_vertical = true } },
+    { rule = { class = "Rhythmbox" },
+      properties = { tag = tags[1][5], maximized_vertical = true } },
     { rule = { class = "Qbittorrent" },
       properties = { tag = tags[1][6] } },
-    { rule = { class = "Dolphin" },
+    { rule = { class = "Tomboy" },
+      properties = { floating = true } },
+    { rule = { class = "Nemo" },
       properties = { tag = tags[1][4] } },
     { rule = { class = "Eclipse" },
       properties = { tag = tags[1][2] } },
-    { rule = { class = "Kget" },
-      properties = { tag = tags[1][6] } },
+    { rule = { class = "Orage" },
+      properties = { floating = true } },
     { rule = { instance = "plugin-container" },
       properties = { floating = true, fullscreen = true } }, 
 }
@@ -629,8 +640,18 @@ for flt=1, 4 do
     awful.layout.set(layouts[12], tag)
 end
 
+function run_once(cmd)
+  findme = cmd
+  firstspace = cmd:find(" ")
+  if firstspace then
+    findme = cmd:sub(0, firstspace-1)
+  end
+  awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
+
 --Auto start apps
--- awful.util.spawn_with_shell("firefox")
--- awful.util.spawn_with_shell("orage")
--- awful.util.spawn_with_shell(terminal)
--- awful.util.spawn_with_shell("nm-applet")
+run_once("firefox")
+run_once("orage")
+run_once(terminal)
+run_once("tomboy")
+run_once("nm-applet")

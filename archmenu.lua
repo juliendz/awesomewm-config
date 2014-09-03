@@ -1,5 +1,6 @@
  local menu98edb85b00d9527ad5acebe451b3fae6 = {
      {"Nemo", "nemo ", "/usr/share/icons/gnome/16x16/places/folder.png" },
+     {"Tomboy Notes", "tomboy --search", "/usr/share/icons/hicolor/16x16/apps/tomboy.png" },
      {"Vi IMproved", "gvim -f ", "/usr/share/pixmaps/gvim.png" },
  }
 
