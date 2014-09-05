@@ -122,7 +122,8 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "Terminator", terminal },
                                     { "Nemo", "nemo" },
                                     { "Rhythmbox", "rhythmbox" },
-				    { "Turn Off", shutdownmenu, beautiful.awesome_icon },
+                                    { "Picasa", 
+ 				      "env WINEPREFIX='/home/julien/.wine' wine /home/julien/.wine/dosdevices/c:/Program\\ Files/Google/Picasa3/Picasa3.exe" },					           { "Turn Off", shutdownmenu, beautiful.awesome_icon },
                                    }
                         })
 
@@ -535,6 +536,8 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 1 of screen 1.
     { rule = { class = "Firefox" },
       properties = { tag = tags[1][1], maximized_vertical = true } },
+    { rule = { class = "Terminator" },
+      properties = { tag = tags[1][3], maximized_vertical = true } },
     { rule = { class = "Rhythmbox" },
       properties = { tag = tags[1][5], maximized_vertical = true } },
     { rule = { class = "Qbittorrent" },
@@ -580,7 +583,7 @@ client.connect_signal("manage", function (c, startup)
         end
     end
 
-    local titlebars_enabled = true
+    local titlebars_enabled = false
     if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
         -- buttons for the titlebar
         local buttons = awful.util.table.join(
